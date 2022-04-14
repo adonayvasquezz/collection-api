@@ -1,26 +1,41 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Collection, CollectionDocument } from 'src/schemas/collection.schema';
 import { CreateTrackerDto } from './dto/create-tracker.dto';
 import { UpdateTrackerDto } from './dto/update-tracker.dto';
 
 @Injectable()
 export class TrackerService {
-  create(createTrackerDto: CreateTrackerDto) {
-    return 'This action adds a new tracker';
+  constructor(
+    @InjectModel(Collection.name)
+    private collectionModel: Model<CollectionDocument>,
+  ) {}
+
+  async create(
+    createTrackerDto: CreateTrackerDto,
+  ): Promise<CollectionDocument> {
+    const createdCollection = new this.collectionModel(createTrackerDto);
+    return createdCollection.save();
   }
 
-  findAll() {
-    return `This action returns all tracker`;
+  async findAll(): Promise<CollectionDocument[]> {
+    return this.collectionModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tracker`;
+  async findById(_id: string): Promise<CollectionDocument> {
+    return this.collectionModel.findById(_id);
   }
 
-  update(id: number, updateTrackerDto: UpdateTrackerDto) {
-    return `This action updates a #${id} tracker`;
+  async update(_id: string, updateTrackerDto: UpdateTrackerDto) {
+    return this.collectionModel.updateOne(
+      { _id },
+      { $set: { ...updateTrackerDto } },
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tracker`;
+  async remove(_id: string) {
+    return this.collectionModel.deleteOne({ _id });
   }
+  
 }

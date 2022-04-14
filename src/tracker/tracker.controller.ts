@@ -18,17 +18,17 @@ export class TrackerController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.trackerService.findOne(+id);
+  findById(@Param('id') id: string) {
+    return this.trackerService.findById(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTrackerDto: UpdateTrackerDto) {
-    return this.trackerService.update(+id, updateTrackerDto);
+    return this.trackerService.update(id, updateTrackerDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.trackerService.remove(+id);
+    return this.trackerService.remove(id);
   }
 }

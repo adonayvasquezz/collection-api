@@ -5,19 +5,19 @@ export type CollectionDocument = Collection & Document;
 
 @Schema()
 export class Collection {
-  @Prop()
+  @Prop({ required: true })
   name: string;
 
   @Prop()
   description: string;
 
-  @Prop([String])
-  category: string[];
+  @Prop()
+  category: string;
 
   @Prop()
   value: number;
 
-  @Prop({type: Date})
+  @Prop({ type: Date })
   year: Date;
 
   @Prop()
