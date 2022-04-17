@@ -28,6 +28,9 @@ export class Collection {
 
   @Prop()
   image: string;
+
+  @Prop()
+  __v: number;
   
 }
 
